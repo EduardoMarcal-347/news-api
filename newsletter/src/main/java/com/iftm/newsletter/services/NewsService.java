@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,18 @@ public class NewsService {
         return ResponseEntity.ok(new NewsDto(repository.save(news.toNews())));
     }
 
-    // implement update
+    public ResponseEntity<NewsDto> update(NewsDto news){
+        if(news.getId() == null) return ResponseEntity.badRequest().build();
+        if(!repository.findById(new ObjectId(news.getId())).isPresent())
+            return ResponseEntity.notFound().build();
+
+        var dbNews = repository.findById(new ObjectId(news.getId())).get();
+        dbNews.setDate(LocalDate.parse(news.getDate()));
+        dbNews.setTittle(news.getTittle());
+        dbNews.setPosts(news.getPosts());
+        dbNews.setEditorName(news.getEditorName());
+        return ResponseEntity.ok(new NewsDto(repository.save(dbNews)));
+    }
 
     public ResponseEntity<?> delete(ObjectId id) {
         if (id==null) return ResponseEntity.badRequest().build();

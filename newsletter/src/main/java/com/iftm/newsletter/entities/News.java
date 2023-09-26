@@ -4,6 +4,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,15 +16,21 @@ public class News {
     @Id
     private ObjectId id;
     private String tittle;
-    private String date;
+    private LocalDate date = LocalDate.from(Instant.now());
     private String editorName;
     private List<Post> posts;
 
     public News() {
     }
 
-    //
-    public News(String id, String tittle, String date, String editorName, List<Post> posts) {
+    public News(ObjectId id, String tittle, String editorName, List<Post> posts) {
+        this.id = id;
+        this.tittle = tittle;
+        this.editorName = editorName;
+        this.posts = posts;
+    }
+
+    public News(ObjectId id, String tittle, LocalDate date, String editorName, List<Post> posts) {
         this.id = id;
         this.tittle = tittle;
         this.date = date;
@@ -29,11 +38,11 @@ public class News {
         this.posts = posts;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -45,11 +54,11 @@ public class News {
         this.tittle = tittle;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

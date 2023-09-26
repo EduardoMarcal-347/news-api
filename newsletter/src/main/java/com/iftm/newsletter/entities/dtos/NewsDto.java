@@ -4,6 +4,8 @@ import com.iftm.newsletter.entities.News;
 import com.iftm.newsletter.entities.Post;
 import org.bson.types.ObjectId;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public class NewsDto {
@@ -18,7 +20,6 @@ public class NewsDto {
     }
 
     public NewsDto(String id, String tittle, String date, String editorName, List<Post> posts) {
-        this.id = id;
         this.tittle = tittle;
         this.date = date;
         this.editorName = editorName;
@@ -26,11 +27,23 @@ public class NewsDto {
     }
 
     public NewsDto(News entity) {
-        this.id = entity.getId();
+        if(entity.getId() != null) this.id = entity.getId().toString();
         this.tittle = entity.getTittle();
-        this.date = entity.getDate();
+        this.date = entity.getDate().toString();
         this.editorName = entity.getEditorName();
         this.posts = entity.getPosts();
+    }
+
+    public News toNews(){
+        ObjectId id = null;
+        if(this.id != null) id = new ObjectId(this.id);
+        return new News(
+                id,
+                this.tittle,
+                LocalDate.parse(this.date),
+                this.editorName,
+                this.posts
+        );
     }
 
     public String getId() {
@@ -73,15 +86,4 @@ public class NewsDto {
         this.posts = posts;
     }
 
-    public News toNews(){
-        ObjectId id = null;
-        if(this.id != null) id = new ObjectId(this.id);
-        return new News(
-                id,
-                this.tittle,
-                this.date,
-                this.editorName,
-                this.posts
-        );
-    }
 }
