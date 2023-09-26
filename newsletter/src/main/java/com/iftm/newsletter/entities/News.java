@@ -1,5 +1,6 @@
 package com.iftm.newsletter.entities;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
 public class News {
 
     @Id
-    private String id;
+    private ObjectId id;
     private String tittle;
     private String date;
     private String editorName;
@@ -19,6 +20,7 @@ public class News {
     public News() {
     }
 
+    //
     public News(String id, String tittle, String date, String editorName, List<Post> posts) {
         this.id = id;
         this.tittle = tittle;

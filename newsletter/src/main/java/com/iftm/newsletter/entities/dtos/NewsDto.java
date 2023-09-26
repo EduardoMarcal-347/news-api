@@ -2,11 +2,13 @@ package com.iftm.newsletter.entities.dtos;
 
 import com.iftm.newsletter.entities.News;
 import com.iftm.newsletter.entities.Post;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
 public class NewsDto {
 
+    private String id;
     private String tittle;
     private String date;
     private String editorName;
@@ -15,7 +17,8 @@ public class NewsDto {
     public NewsDto() {
     }
 
-    public NewsDto(String tittle, String date, String editorName, List<Post> posts) {
+    public NewsDto(String id, String tittle, String date, String editorName, List<Post> posts) {
+        this.id = id;
         this.tittle = tittle;
         this.date = date;
         this.editorName = editorName;
@@ -23,9 +26,62 @@ public class NewsDto {
     }
 
     public NewsDto(News entity) {
+        this.id = entity.getId();
         this.tittle = entity.getTittle();
         this.date = entity.getDate();
         this.editorName = entity.getEditorName();
         this.posts = entity.getPosts();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTittle() {
+        return tittle;
+    }
+
+    public void setTittle(String tittle) {
+        this.tittle = tittle;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getEditorName() {
+        return editorName;
+    }
+
+    public void setEditorName(String editorName) {
+        this.editorName = editorName;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public News toNews(){
+        ObjectId id = null;
+        if(this.id != null) id = new ObjectId(this.id);
+        return new News(
+                id,
+                this.tittle,
+                this.date,
+                this.editorName,
+                this.posts
+        );
     }
 }
