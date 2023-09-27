@@ -37,8 +37,7 @@ public class NewsService {
     }
 
     public ResponseEntity<NewsDto> save(NewsDto news){
-        if(news.getTittle().isBlank() || news.getEditorName().isBlank()
-                || news.getPosts().isEmpty()) {
+        if(news.getTittle().isBlank() || news.getEditorName().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(new NewsDto(repository.save(news.toNews())));
@@ -50,7 +49,7 @@ public class NewsService {
             return ResponseEntity.notFound().build();
 
         var dbNews = repository.findById(new ObjectId(news.getId())).get();
-        dbNews.setDate(LocalDate.parse(news.getDate()));
+        dbNews.setDate(news.getDate());
         dbNews.setTittle(news.getTittle());
         dbNews.setPosts(news.getPosts());
         dbNews.setEditorName(news.getEditorName());

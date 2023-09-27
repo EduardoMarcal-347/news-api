@@ -16,21 +16,14 @@ public class News {
     @Id
     private ObjectId id;
     private String tittle;
-    private LocalDate date = LocalDate.from(Instant.now());
+    private String date;
     private String editorName;
     private List<Post> posts;
 
     public News() {
     }
 
-    public News(ObjectId id, String tittle, String editorName, List<Post> posts) {
-        this.id = id;
-        this.tittle = tittle;
-        this.editorName = editorName;
-        this.posts = posts;
-    }
-
-    public News(ObjectId id, String tittle, LocalDate date, String editorName, List<Post> posts) {
+    public News(ObjectId id, String tittle, String date, String editorName, List<Post> posts) {
         this.id = id;
         this.tittle = tittle;
         this.date = date;
@@ -54,11 +47,11 @@ public class News {
         this.tittle = tittle;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
