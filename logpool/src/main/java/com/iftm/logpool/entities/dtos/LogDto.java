@@ -24,6 +24,13 @@ public class LogDto<T> implements Serializable {
         this.object = object;
         this.objectType = objectType;
     }
+    public LogDto(Log<T> entity) {
+        this.id = entity.getId();
+        this.action = entity.getAction();
+        this.date = entity.getDate();
+        this.object = entity.getObject();
+        this.objectType = entity.getObjectType();
+    }
 
     public Log<T> toLog() {
         var log = new Log<T>();
