@@ -1,5 +1,6 @@
 package com.iftm.logpool.entities;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.Objects;
 @Document(collection = "newsLogs")
 public class Log<T> implements Serializable {
 
+    @Id
     private String id;
     private String action;
     private Date date = new Date();
