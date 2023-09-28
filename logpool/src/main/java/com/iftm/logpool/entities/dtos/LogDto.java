@@ -1,13 +1,12 @@
-package com.iftm.logpool.entities;
+package com.iftm.logpool.entities.dtos;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.iftm.logpool.entities.Log;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@Document(collection = "newsLogs")
-public class Log<T> implements Serializable {
+public class LogDto<T> implements Serializable {
 
     private String id;
     private String action;
@@ -15,15 +14,27 @@ public class Log<T> implements Serializable {
     private T object;
     private String objectType;
 
-    public Log() {
+    public LogDto() {
     }
 
-    public Log(String id, String action, Date date, T object, String objectType) {
+    public LogDto(String id, String action, Date date, T object, String objectType) {
         this.id = id;
         this.action = action;
         this.date = date;
         this.object = object;
         this.objectType = objectType;
+    }
+
+    public Log<T> toLog() {
+        var log = new Log<T>();
+
+        if (this.id != null && !this.id.isBlank()) log.setId(this.id);
+        log.setObjectType(this.objectType);
+        log.setAction(this.id);
+        log.setDate(this.date);
+        log.setObject(this.object);
+        if (this.objectType != null && !this.objectType.isBlank()) log.setObjectType(this.objectType);
+        return log;
     }
 
     public String getId() {
@@ -70,8 +81,8 @@ public class Log<T> implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Log<?> log = (Log<?>) o;
-        return Objects.equals(id, log.id) && Objects.equals(action, log.action) && Objects.equals(date, log.date) && Objects.equals(object, log.object) && Objects.equals(objectType, log.objectType);
+        LogDto<?> logDto = (LogDto<?>) o;
+        return Objects.equals(id, logDto.id) && Objects.equals(action, logDto.action) && Objects.equals(date, logDto.date) && Objects.equals(object, logDto.object) && Objects.equals(objectType, logDto.objectType);
     }
 
     @Override
@@ -81,7 +92,7 @@ public class Log<T> implements Serializable {
 
     @Override
     public String toString() {
-        return "Log{" +
+        return "LogDto{" +
                 "id='" + id + '\'' +
                 ", action='" + action + '\'' +
                 ", date=" + date +
