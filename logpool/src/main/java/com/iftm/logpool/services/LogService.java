@@ -1,7 +1,5 @@
 package com.iftm.logpool.services;
 
-
-import com.iftm.logpool.entities.Log;
 import com.iftm.logpool.entities.dtos.LogDto;
 import com.iftm.logpool.entities.dtos.NewsDto;
 import com.iftm.logpool.repositories.LogRepository;
@@ -30,7 +28,7 @@ public class LogService {
         return ResponseEntity.ok(dbLogsDto);
     }
 
-    public ResponseEntity<LogDto<NewsDto>> save(LogDto<NewsDto> logDto) throws URISyntaxException {
+    public ResponseEntity<LogDto<NewsDto>> save(LogDto<NewsDto> logDto) {
         if(logDto.getAction().isBlank() || logDto.getObject() == null)
             return ResponseEntity.badRequest().build();
         var dbLog = repository.save(logDto.toLog());
