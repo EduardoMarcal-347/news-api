@@ -22,7 +22,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-softwareHouse:
+newsLetter:
   rabbitmq:
     exchange: news.exchange
     rountingkey: news.employee.routingkey
