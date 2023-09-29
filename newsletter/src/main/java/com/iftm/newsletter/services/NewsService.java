@@ -48,10 +48,7 @@ public class NewsService {
         if (news.getTittle().isBlank() || news.getEditorName().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
-
-        if (rabbitMqSendLog.getRoutingKey() != "${news.createLog.routingkey}")
-            rabbitMqSendLog.setRoutingKey("${news.createLog.routingkey}");
-
+        
         rabbitMqSendLog.sendLog(
                 new LogDto("create",
                         Date.from(Instant.now()),
@@ -71,9 +68,6 @@ public class NewsService {
         dbNews.setPosts(news.getPosts());
         dbNews.setEditorName(news.getEditorName());
 
-        if (rabbitMqSendLog.getRoutingKey() != "${news.updateLog.routingkey}")
-            rabbitMqSendLog.setRoutingKey("${news.updateLog.routingkey}");
-
         rabbitMqSendLog.sendLog(
                 new LogDto("update",
                         Date.from(Instant.now()),
@@ -88,9 +82,6 @@ public class NewsService {
         repository.deleteById(id);
         var news = repository.findById(id);
         if (news.isPresent()) return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
-
-        if (rabbitMqSendLog.getRoutingKey() != "${news.deleteLog.routingkey}")
-            rabbitMqSendLog.setRoutingKey("${news.deleteLog.routingkey}");
 
         rabbitMqSendLog.sendLog(
                 new LogDto("delete",

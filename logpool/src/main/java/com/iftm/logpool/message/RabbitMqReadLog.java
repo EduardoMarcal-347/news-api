@@ -14,7 +14,7 @@ public class RabbitMqReadLog {
     private LogService service;
 
     @RabbitListener(queues = "${news.createLog.routingkey}")
-    public void receiveLog(@Payload LogDto logDto){
+    public void receiveLogActionCreate(@Payload LogDto logDto){
         if(logDto != null) service.save(logDto);
     }
     
