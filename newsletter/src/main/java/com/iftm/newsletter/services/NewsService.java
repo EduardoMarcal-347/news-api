@@ -23,6 +23,8 @@ public class NewsService {
     @Autowired
     private NewsRepository repository;
 
+
+    @Autowired
     private RabbitMqSendLog rabbitMqSendLog;
 
     public ResponseEntity<List<NewsDto>> findAll() {
@@ -51,7 +53,7 @@ public class NewsService {
             rabbitMqSendLog.setRoutingKey("${news.createLog.routingkey}");
 
         rabbitMqSendLog.sendLog(
-                new LogDto("created",
+                new LogDto("create",
                         Date.from(Instant.now()),
                         news,
                         news.getClass().toString()));
@@ -73,7 +75,7 @@ public class NewsService {
             rabbitMqSendLog.setRoutingKey("${news.updateLog.routingkey}");
 
         rabbitMqSendLog.sendLog(
-                new LogDto("created",
+                new LogDto("update",
                         Date.from(Instant.now()),
                         news,
                         news.getClass().toString()));
@@ -82,9 +84,19 @@ public class NewsService {
 
     public ResponseEntity<?> delete(ObjectId id) {
         if (id == null) return ResponseEntity.badRequest().build();
+        var logNews = repository.findById(id);
         repository.deleteById(id);
         var news = repository.findById(id);
         if (news.isPresent()) return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+
+        if (rabbitMqSendLog.getRoutingKey() != "${news.deleteLog.routingkey}")
+            rabbitMqSendLog.setRoutingKey("${news.deleteLog.routingkey}");
+
+        rabbitMqSendLog.sendLog(
+                new LogDto("delete",
+                        Date.from(Instant.now()),
+                        logNews,
+                        news.getClass().toString()));
         return ResponseEntity.ok().build();
     }
 
