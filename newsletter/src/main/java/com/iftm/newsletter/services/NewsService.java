@@ -48,7 +48,7 @@ public class NewsService {
         if (news.getTittle().isBlank() || news.getEditorName().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
-        
+
         rabbitMqSendLog.sendLog(
                 new LogDto("create",
                         Date.from(Instant.now()),
