@@ -27,6 +27,7 @@ public class Log<T> implements Serializable {
         this.object = object;
         this.objectType = objectType;
     }
+
     public String getId() {
         return id;
     }

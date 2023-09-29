@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,16 +21,18 @@ public class LogService {
 
     public ResponseEntity<List<LogDto<NewsDto>>> findAll() {
         var dbLogs = repository.findAll();
-        if(dbLogs.isEmpty()) return ResponseEntity.notFound().build();
+        if(dbLogs == null || dbLogs.size() == 0) return ResponseEntity.notFound().build();
         var dbLogsDto = dbLogs.stream().map(log -> {
             return new LogDto<NewsDto>(log);
         }).collect(Collectors.toList());
         return ResponseEntity.ok(dbLogsDto);
     }
 
-    public ResponseEntity<LogDto<NewsDto>> save(LogDto<NewsDto> logDto) {
-        if(logDto.getAction().isBlank() || logDto.getObject() == null)
+    public ResponseEntity<LogDto<NewsDto>> save(LogDto logDto) {
+        if(logDto.getObject() == null || logDto.getObjectType() == null)
             return ResponseEntity.badRequest().build();
+        logDto.setAction("created");
+        logDto.setDate(Date.from(Instant.now()));
         var dbLog = repository.save(logDto.toLog());
         return new ResponseEntity<>(new LogDto(dbLog), HttpStatus.CREATED);
     }

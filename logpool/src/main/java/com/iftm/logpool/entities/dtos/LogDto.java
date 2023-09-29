@@ -17,13 +17,11 @@ public class LogDto<T> implements Serializable {
     public LogDto() {
     }
 
-    public LogDto(String id, String action, Date date, T object, String objectType) {
-        this.id = id;
-        this.action = action;
-        this.date = date;
+    public LogDto(T object, String objectType) {
         this.object = object;
         this.objectType = objectType;
     }
+
     public LogDto(Log<T> entity) {
         this.id = entity.getId();
         this.action = entity.getAction();
@@ -35,12 +33,13 @@ public class LogDto<T> implements Serializable {
     public Log<T> toLog() {
         var log = new Log<T>();
 
-        if (this.id != null && !this.id.isBlank()) log.setId(this.id);
-        log.setObjectType(this.objectType);
-        log.setAction(this.id);
+        if(this.id != null && !this.id.isBlank())
+            log.setId(this.id);
+        log.setAction(this.action);
         log.setDate(this.date);
         log.setObject(this.object);
-        if (this.objectType != null && !this.objectType.isBlank()) log.setObjectType(this.objectType);
+        if(this.objectType != null && !this.objectType.isBlank())
+            log.setObjectType(this.objectType);
         return log;
     }
 
