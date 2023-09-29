@@ -15,15 +15,9 @@ public class LogDto<T> implements Serializable {
     public LogDto() {
     }
 
-    public LogDto(String id, String action, Date date, T object, String objectType) {
-        this.id = id;
+    public LogDto(String action, Date date, T object, String objectType) {
         this.action = action;
         this.date = date;
-        this.object = object;
-        this.objectType = objectType;
-    }
-
-    public LogDto(T object, String objectType) {
         this.object = object;
         this.objectType = objectType;
     }

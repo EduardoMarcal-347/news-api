@@ -22,10 +22,12 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
+
+#TODO (VERIFICAR COMO CRIAR DUAS ROUTING KEYS COMO VARIAVEIS DE AMBIENTE)
 newsLetter:
   rabbitmq:
     exchange: news.exchange
-    rountingkey: news.employee.routingkey
+    rountingkey: news.createLog.routingkey, news.update.routingkey
     queue: news.queue
 
 logging:

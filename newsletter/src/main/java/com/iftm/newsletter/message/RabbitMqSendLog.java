@@ -12,7 +12,7 @@ public class RabbitMqSendLog {
     @Value("${news.exchange}")
     private String exchange;
 
-    @Value("${news.employee.routingkey}")
+    @Value("${news.createLog.routingkey}")
     private String routingKey;
 
     @Value("${news.queue}")
@@ -24,7 +24,7 @@ public class RabbitMqSendLog {
     public RabbitMqSendLog(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
-    
+
     public void sendLog(LogDto logDto) {
         rabbitTemplate.execute(channel -> {
             channel.exchangeDeclare(exchange, "direct", true);
@@ -33,5 +33,13 @@ public class RabbitMqSendLog {
             return null;
         });
         rabbitTemplate.convertAndSend(exchange, routingKey, logDto);
+    }
+
+    public String getRoutingKey() {
+        return routingKey;
+    }
+
+    public void setRoutingKey(String routingKey) {
+        this.routingKey = routingKey;
     }
 }

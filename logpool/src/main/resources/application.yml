@@ -25,7 +25,7 @@ eureka:
 newsLetter:
   rabbitmq:
     exchange: news.exchange
-    rountingkey: news.employee.routingkey
+    rountingkey: news.createLog.routingkey
     queue: news.queue
 
 logging:
