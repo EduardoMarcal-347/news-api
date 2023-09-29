@@ -21,9 +21,4 @@ public class LogController {
         return service.findAll();
     }
 
-    @PostMapping
-    public ResponseEntity<LogDto<NewsDto>> save(@RequestBody LogDto<NewsDto> logDto) {
-        return service.save(logDto);
-    }
-
 }
