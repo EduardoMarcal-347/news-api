@@ -29,9 +29,8 @@ public class LogService {
     }
 
     public ResponseEntity<LogDto<NewsDto>> save(LogDto logDto) {
-        if(logDto.getObject() == null || logDto.getObjectType() == null)
+        if(logDto.getAction().isBlank() || logDto.getObject() == null)
             return ResponseEntity.badRequest().build();
-        logDto.setAction("created");
         logDto.setDate(Date.from(Instant.now()));
         var dbLog = repository.save(logDto.toLog());
         return new ResponseEntity<>(new LogDto(dbLog), HttpStatus.CREATED);
