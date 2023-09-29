@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMqSendLog {
 
-    @Value("${news.exchange}")
+    @Value("${news.rabbitmq.exchange}")
     private String exchange;
 
     @Value("${news.createLog.routingkey}")
