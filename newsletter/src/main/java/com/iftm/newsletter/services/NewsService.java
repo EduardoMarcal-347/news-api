@@ -52,7 +52,7 @@ public class NewsService {
                         Date.from(Instant.now()),
                         dbNews,
                         dbNews.getClass().toString()));
-        return ResponseEntity.ok(new NewsDto(repository.save(news.toNews())));
+        return ResponseEntity.ok(dbNews);
     }
 
     public ResponseEntity<NewsDto> update(NewsDto news) {
@@ -60,7 +60,7 @@ public class NewsService {
         if (!repository.findById(new ObjectId(news.getId())).isPresent())
             return ResponseEntity.notFound().build();
 
-        var dbNews = repository.findById(new ObjectId(news.getId())).get();
+        var dbNews = new NewsDto(repository.findById(new ObjectId(news.getId())).get());
         dbNews.setDate(news.getDate());
         dbNews.setTittle(news.getTittle());
         dbNews.setPosts(news.getPosts());
@@ -71,7 +71,7 @@ public class NewsService {
                         Date.from(Instant.now()),
                         dbNews,
                         dbNews.getClass().toString()));
-        return ResponseEntity.ok(new NewsDto(repository.save(dbNews)));
+        return ResponseEntity.ok(dbNews);
     }
 
     public ResponseEntity<?> delete(ObjectId id) {

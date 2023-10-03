@@ -28,9 +28,6 @@ newsletter:
     rountingkey: newsletter.log.rountingkey
     queue: newsletter.queue
 
-#exchange: softwareHouse.exchange
-#  rountingkey: softwareHouse.employee.routingkey
-#  queue: softwareHouse.queue
 
 logging:
   level:
