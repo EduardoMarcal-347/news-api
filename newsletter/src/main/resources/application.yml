@@ -25,7 +25,7 @@ eureka:
 newsletter:
   rabbitmq:
     exchange: newsletter.exchange
-    rountingkey: newsletter.log.rountingkey
+    routingkey: newsletter.log.routingkey
     queue: newsletter.queue
 
 

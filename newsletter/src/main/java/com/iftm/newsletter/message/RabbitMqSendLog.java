@@ -12,7 +12,7 @@ public class RabbitMqSendLog {
     @Value("${newsletter.rabbitmq.exchange}")
     private String exchange;
 
-    @Value("${newsletter.rabbitmq.rountingkey}")
+    @Value("${newsletter.rabbitmq.routingkey}")
     private String routingKey;
 
     @Value("${newsletter.rabbitmq.queue}")
