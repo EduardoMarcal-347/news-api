@@ -1,6 +1,5 @@
 package com.iftm.newsletter.services;
 
-import com.iftm.newsletter.entities.News;
 import com.iftm.newsletter.entities.dtos.LogDto;
 import com.iftm.newsletter.entities.dtos.NewsDto;
 import com.iftm.newsletter.message.RabbitMqSendLog;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +20,6 @@ public class NewsService {
 
     @Autowired
     private NewsRepository repository;
-
 
     @Autowired
     private RabbitMqSendLog rabbitMqSendLog;
@@ -49,11 +46,12 @@ public class NewsService {
             return ResponseEntity.badRequest().build();
         }
 
+        var dbNews = new NewsDto(repository.save(news.toNews()));
         rabbitMqSendLog.sendLog(
                 new LogDto("create",
                         Date.from(Instant.now()),
-                        news,
-                        news.getClass().toString()));
+                        dbNews,
+                        dbNews.getClass().toString()));
         return ResponseEntity.ok(new NewsDto(repository.save(news.toNews())));
     }
 
@@ -71,14 +69,14 @@ public class NewsService {
         rabbitMqSendLog.sendLog(
                 new LogDto("update",
                         Date.from(Instant.now()),
-                        news,
-                        news.getClass().toString()));
+                        dbNews,
+                        dbNews.getClass().toString()));
         return ResponseEntity.ok(new NewsDto(repository.save(dbNews)));
     }
 
     public ResponseEntity<?> delete(ObjectId id) {
         if (id == null) return ResponseEntity.badRequest().build();
-        var logNews = repository.findById(id);
+        var logNews = new NewsDto(repository.findById(id).get());
         repository.deleteById(id);
         var news = repository.findById(id);
         if (news.isPresent()) return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
@@ -87,7 +85,7 @@ public class NewsService {
                 new LogDto("delete",
                         Date.from(Instant.now()),
                         logNews,
-                        news.getClass().toString()));
+                        logNews.getClass().toString()));
         return ResponseEntity.ok().build();
     }
 

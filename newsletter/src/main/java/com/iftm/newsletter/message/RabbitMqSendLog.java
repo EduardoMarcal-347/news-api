@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMqSendLog {
 
-    @Value("${news.rabbitmq.exchange}")
+    @Value("${newsletter.rabbitmq.exchange}")
     private String exchange;
 
-    @Value("${news.createLog.routingkey}")
+    @Value("${newsletter.rabbitmq.rountingkey}")
     private String routingKey;
 
-    @Value("${news.queue}")
+    @Value("${newsletter.rabbitmq.queue}")
     private String queue;
 
     public final RabbitTemplate rabbitTemplate;
@@ -35,11 +35,4 @@ public class RabbitMqSendLog {
         rabbitTemplate.convertAndSend(exchange, routingKey, logDto);
     }
 
-    public String getRoutingKey() {
-        return routingKey;
-    }
-
-    public void setRoutingKey(String routingKey) {
-        this.routingKey = routingKey;
-    }
 }

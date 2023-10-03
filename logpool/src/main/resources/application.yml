@@ -22,11 +22,11 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-newsLetter:
+newsletter:
   rabbitmq:
-    exchange: news.rabbitmq.exchange
-    rountingkey: news.createLog.routingkey
-    queue: news.queue
+    exchange: newsletter.exchange
+    rountingkey: newsletter.log.rountingkey
+    queue: newsletter.queue
 
 logging:
   level:

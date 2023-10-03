@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-    @Value("${news.rabbitmq.exchange}")
+    @Value("${newsletter.rabbitmq.exchange}")
     private String exchange;
 
     @Bean
@@ -22,6 +22,7 @@ public class RabbitMqConfig {
                 .build();
     }
 
+    @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
