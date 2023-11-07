@@ -32,6 +32,11 @@ public class EmployeeController {
         return service.findById(id);
     }
 
+    @GetMapping("employee")
+    public ResponseEntity<EmployeeDto> getEmployee(@RequestBody EmployeeDto employeeDto) {
+        return service.getEmployee(employeeDto);
+    }
+
     @PostMapping
     public ResponseEntity<EmployeeDto> create(@RequestBody EmployeeDto employee) {
         return service.save(employee);

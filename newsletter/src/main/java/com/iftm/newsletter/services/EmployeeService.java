@@ -47,4 +47,9 @@ public class EmployeeService {
         return ResponseEntity.ok(dbEmployee);
     }
 
+    public ResponseEntity<EmployeeDto> getEmployee(EmployeeDto employeeDto) {
+        if(!repository.existsById(employeeDto.toEmployee().getId())) return ResponseEntity.badRequest().build();
+        else return ResponseEntity.ok().body(employeeDto);
+    }
+
 }
